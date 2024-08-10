@@ -59,7 +59,7 @@ function listBluetoothDevices(callback) {
  */
 function enableBluetooth() {
   const command = `powershell "Start-Service bthserv"`;
-  executeCommand(command, (output) => {
+  executeCommand(command, callback || function (output) {
     console.log('Bluetooth enabled');
   });
 }
@@ -71,7 +71,7 @@ function enableBluetooth() {
  */
 function disableBluetooth() {
   const command = `powershell "Stop-Service bthserv"`;
-  executeCommand(command, (output) => {
+  executeCommand(command, callback || function (output) {
     console.log('Bluetooth disabled');
   });
 }
@@ -84,7 +84,7 @@ function disableBluetooth() {
  */
 function pairBluetoothDevice(deviceId) {
   const command = `powershell "Add-BluetoothDevice -DeviceAddress ${deviceId}"`;
-  executeCommand(command, (output) => {
+  executeCommand(command, callback || function (output) {
     console.log(`Paired with device: ${deviceId}`);
   });
 }
@@ -97,10 +97,36 @@ function pairBluetoothDevice(deviceId) {
  */
 function unpairBluetoothDevice(deviceId) {
   const command = `powershell "Remove-BluetoothDevice -DeviceAddress ${deviceId}"`;
-  executeCommand(command, (output) => {
+  executeCommand(command, callback || function (output) {
     console.log(`Unpaired with device: ${deviceId}`);
   });
 }
+
+// List All Paired Bluetooth Devices
+function listPairedBluetoothDevices() {
+  const command = `
+    $devices = Get-PnpDevice -Class Bluetooth | Where-Object { $_.Status -eq 'OK' }
+    $devices | ForEach-Object { $_.FriendlyName }
+  `;
+  executeCommand(command, (output) => {
+    console.log('Paired Bluetooth Devices:');
+    console.log(output.trim() ? output : 'No paired devices found.');
+  });
+}
+
+
+// Check Bluetooth Status
+function checkBluetoothStatus() {
+  const command = `Get-Service -Name bthserv | Select-Object -ExpandProperty Status`;
+  executeCommand(command, (output) => {
+    if (output.trim() === 'Running') {
+      console.log('Bluetooth is enabled and running');
+    } else {
+      console.log('Bluetooth is disabled or not running');
+    }
+  });
+}
+
 
 // // Example usage
 listBluetoothDevices();
@@ -109,3 +135,13 @@ listBluetoothDevices();
 // pairBluetoothDevice('DEVICE_ID');
 // unpairBluetoothDevice('DEVICE_ID');
 // disableBluetooth();
+
+
+module.exports = {
+  listBluetoothDevices,
+  enableBluetooth,
+  disableBluetooth,
+  pairBluetoothDevice,
+  unpairBluetoothDevice
+}
+

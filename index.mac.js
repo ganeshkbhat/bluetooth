@@ -108,3 +108,14 @@ function listAllBluetoothDevices() {
 // // unpairDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
 // turnBluetoothOff();
 
+
+module.exports = {
+  getBluetoothStatus,
+  turnBluetoothOn,
+  turnBluetoothOff,
+  listPairedDevices,
+  pairWithDevice,
+  unpairDevice,
+  listAllBluetoothDevices
+}
+
