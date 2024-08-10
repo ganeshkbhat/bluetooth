@@ -1,9 +1,30 @@
+/**
+ * 
+ * Package: bluetooth.js
+ * Author: Ganesh B
+ * Description: 
+ * Install: npm i bluetooth.js --save
+ * Github: https://github.com/ganeshkbhat/bluetooth
+ * npmjs Link: https://www.npmjs.com/package/bluetooth
+ * File: index.js
+ * File Description: 
+ * 
+ * 
+*/
 
+/* eslint no-console: 0 */
 
+'use strict';
 
 const { exec } = require('child_process');
 
-// Function to execute a command
+
+/**
+ * Function to execute a command
+ *
+ * @param {*} command
+ * @param {*} callback
+ */
 function executeCommand(command, callback) {
   exec(command, (error, stdout, stderr) => {
     if (error) {
@@ -18,16 +39,24 @@ function executeCommand(command, callback) {
   });
 }
 
-// Identify Bluetooth Devices
-function listBluetoothDevices() {
+
+/**
+ * Identify Bluetooth Devices
+ *
+ */
+function listBluetoothDevices(callback) {
   const command = `powershell "Get-PnpDevice -Class Bluetooth"`;
-  executeCommand(command, (output) => {
+  executeCommand(command, callback || function (output) {
     console.log('Bluetooth Devices:');
     console.log(output);
   });
 }
 
-// Enable Bluetooth
+
+/**
+ * Enable Bluetooth
+ *
+ */
 function enableBluetooth() {
   const command = `powershell "Start-Service bthserv"`;
   executeCommand(command, (output) => {
@@ -35,7 +64,11 @@ function enableBluetooth() {
   });
 }
 
-// Disable Bluetooth
+
+/**
+ * Disable Bluetooth
+ *
+ */
 function disableBluetooth() {
   const command = `powershell "Stop-Service bthserv"`;
   executeCommand(command, (output) => {
@@ -43,7 +76,12 @@ function disableBluetooth() {
   });
 }
 
-// Pair with a Bluetooth Device
+
+/**
+ * Pair with a Bluetooth Device
+ *
+ * @param {*} deviceId
+ */
 function pairBluetoothDevice(deviceId) {
   const command = `powershell "Add-BluetoothDevice -DeviceAddress ${deviceId}"`;
   executeCommand(command, (output) => {
@@ -51,7 +89,12 @@ function pairBluetoothDevice(deviceId) {
   });
 }
 
-// Unpair with a Bluetooth Device
+
+/**
+ * Unpair with a Bluetooth Device
+ *
+ * @param {*} deviceId
+ */
 function unpairBluetoothDevice(deviceId) {
   const command = `powershell "Remove-BluetoothDevice -DeviceAddress ${deviceId}"`;
   executeCommand(command, (output) => {
@@ -60,7 +103,7 @@ function unpairBluetoothDevice(deviceId) {
 }
 
 // // Example usage
-// listBluetoothDevices();
+listBluetoothDevices();
 // enableBluetooth();
 // // Replace 'DEVICE_ID' with the actual Bluetooth device ID
 // pairBluetoothDevice('DEVICE_ID');

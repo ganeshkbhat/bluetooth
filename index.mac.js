@@ -1,7 +1,20 @@
+/**
+ * 
+ * Package: bluetooth.js
+ * Author: Ganesh B
+ * Description: 
+ * Install: npm i bluetooth.js --save
+ * Github: https://github.com/ganeshkbhat/bluetooth
+ * npmjs Link: https://www.npmjs.com/package/bluetooth
+ * File: index.js
+ * File Description: 
+ * 
+ * 
+*/
 
+/* eslint no-console: 0 */
 
-
-
+'use strict';
 
 const { execSync } = require('child_process');
 
@@ -37,10 +50,11 @@ function turnBluetoothOff() {
 }
 
 // List paired devices
-function listPairedDevices() {
+function listPairedDevices(callback) {
   const command = 'blueutil --paired';
   const result = executeCommand(command);
   console.log(`Paired Devices:\n${result}`);
+  callback(result);
 }
 
 // Pair with a device (replace XX-XX-XX-XX-XX-XX with the device address)
@@ -57,10 +71,39 @@ function unpairDevice(deviceAddress) {
   console.log(`Unpaired device: ${deviceAddress}`);
 }
 
+// List all Bluetooth devices
+function listAllBluetoothDevices() {
+  const command = 'system_profiler SPBluetoothDataType';
+  const result = executeCommand(command);
+
+  const devices = [];
+  const lines = result.split('\n');
+
+  let currentDevice = null;
+  lines.forEach(line => {
+    if (line.includes('Device Name:')) {
+      if (currentDevice) devices.push(currentDevice);
+      currentDevice = { name: line.split(': ')[1].trim() };
+    } else if (line.includes('Address:')) {
+      if (currentDevice) currentDevice.address = line.split(': ')[1].trim();
+    } else if (line.includes('Connected:')) {
+      if (currentDevice) currentDevice.connected = line.split(': ')[1].trim();
+    }
+  });
+
+  if (currentDevice) devices.push(currentDevice);
+
+  console.log('All Bluetooth Devices:');
+  devices.forEach((device, index) => {
+    console.log(`${index + 1}. Name: ${device.name}, Address: ${device.address}, Connected: ${device.connected}`);
+  });
+}
+
 // // Example usage
 // getBluetoothStatus();
 // turnBluetoothOn();
 // listPairedDevices();
+// listAllBluetoothDevices();
 // // pairWithDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
 // // unpairDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
 // turnBluetoothOff();
