@@ -60,11 +60,11 @@ function listDevices(callback) {
  * @param {*} macAddress
  * @param {*} callback
  */
-function pairDevice(macAddress, callback) {
+function pairWithDevice(macAddress, callback) {
   executeCommand(`bluetoothctl pair ${macAddress}`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
-  
+
 }
 
 /**
@@ -138,19 +138,20 @@ function checkBluetoothStatus(callback) {
   });
 }
 
+// listDevices(devices => { console.log('Available devices:', devices); });
+// pairWithDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Pairing result:', result); });
+// unpairDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Unpairing result:', result); });
+// openBluetooth(result => { console.log('Bluetooth enabled:', result); });
+// closeBluetooth(result => { console.log('Bluetooth disabled:', result); });
+
+
 module.exports = {
   listDevices,
-  pairDevice,
+  pairWithDevice,
   unpairDevice,
   openBluetooth,
   closeBluetooth,
   listPairedDevices,
   checkBluetoothStatus
 }
-
-// listDevices(devices => { console.log('Available devices:', devices); });
-// pairDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Pairing result:', result); });
-// unpairDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Unpairing result:', result); });
-// openBluetooth(result => { console.log('Bluetooth enabled:', result); });
-// closeBluetooth(result => { console.log('Bluetooth disabled:', result); });
 

@@ -44,7 +44,7 @@ function executeCommand(command, callback) {
  * Identify Bluetooth Devices
  *
  */
-function listBluetoothDevices(callback) {
+function listDevices(callback) {
   const command = `powershell "Get-PnpDevice -Class Bluetooth"`;
   executeCommand(command, callback || function (output) {
     console.log('Bluetooth Devices:');
@@ -82,7 +82,7 @@ function disableBluetooth() {
  *
  * @param {*} deviceId
  */
-function pairBluetoothDevice(deviceId) {
+function pairWithDevice(deviceId) {
   const command = `powershell "Add-BluetoothDevice -DeviceAddress ${deviceId}"`;
   executeCommand(command, callback || function (output) {
     console.log(`Paired with device: ${deviceId}`);
@@ -95,7 +95,7 @@ function pairBluetoothDevice(deviceId) {
  *
  * @param {*} deviceId
  */
-function unpairBluetoothDevice(deviceId) {
+function unpairDevice(deviceId) {
   const command = `powershell "Remove-BluetoothDevice -DeviceAddress ${deviceId}"`;
   executeCommand(command, callback || function (output) {
     console.log(`Unpaired with device: ${deviceId}`);
@@ -103,7 +103,7 @@ function unpairBluetoothDevice(deviceId) {
 }
 
 // List All Paired Bluetooth Devices
-function listPairedBluetoothDevices() {
+function listPairedDevices() {
   const command = `
     $devices = Get-PnpDevice -Class Bluetooth | Where-Object { $_.Status -eq 'OK' }
     $devices | ForEach-Object { $_.FriendlyName }
@@ -127,21 +127,23 @@ function checkBluetoothStatus() {
   });
 }
 
-
 // // Example usage
-listBluetoothDevices();
+// listDevices();
 // enableBluetooth();
 // // Replace 'DEVICE_ID' with the actual Bluetooth device ID
-// pairBluetoothDevice('DEVICE_ID');
-// unpairBluetoothDevice('DEVICE_ID');
+// pairWithDevice('DEVICE_ID');
+// unpairDevice('DEVICE_ID');
+// listPairedDevices();
+// checkBluetoothStatus();
 // disableBluetooth();
 
-
 module.exports = {
-  listBluetoothDevices,
+  listDevices,
   enableBluetooth,
   disableBluetooth,
-  pairBluetoothDevice,
-  unpairBluetoothDevice
+  pairWithDevice,
+  unpairDevice,
+  listPairedDevices,
+  checkBluetoothStatus
 }
 

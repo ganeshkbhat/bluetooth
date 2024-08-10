@@ -29,7 +29,7 @@ function executeCommand(command) {
 }
 
 // Identify Bluetooth status
-function getBluetoothStatus() {
+function checkBluetoothStatus() {
   const command = 'system_profiler SPBluetoothDataType | grep "Bluetooth Power"';
   const result = executeCommand(command);
   console.log(`Bluetooth Status: ${result}`);
@@ -72,7 +72,7 @@ function unpairDevice(deviceAddress) {
 }
 
 // List all Bluetooth devices
-function listAllBluetoothDevices() {
+function listDevices() {
   const command = 'system_profiler SPBluetoothDataType';
   const result = executeCommand(command);
 
@@ -100,22 +100,21 @@ function listAllBluetoothDevices() {
 }
 
 // // Example usage
-// getBluetoothStatus();
+// checkBluetoothStatus();
 // turnBluetoothOn();
 // listPairedDevices();
-// listAllBluetoothDevices();
+// listDevices();
 // // pairWithDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
 // // unpairDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
 // turnBluetoothOff();
 
-
 module.exports = {
-  getBluetoothStatus,
+  checkBluetoothStatus,
   turnBluetoothOn,
   turnBluetoothOff,
   listPairedDevices,
   pairWithDevice,
   unpairDevice,
-  listAllBluetoothDevices
+  listDevices
 }
 
