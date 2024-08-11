@@ -122,7 +122,7 @@ function listPairedDevices(callback) {
 
 
 // Check Bluetooth Status
-function checkBluetoothStatus(callback) {
+function checkStatus(callback) {
   const command = `Get-Service -Name bthserv | Select-Object -ExpandProperty Status`;
   executeCommand(command, (error, stdout, stderr) => {
     if (stdout.trim() === 'Running') {
@@ -142,7 +142,7 @@ function checkBluetoothStatus(callback) {
 // pairDevice('DEVICE_ID');
 // unpairDevice('DEVICE_ID');
 // listPairedDevices();
-// checkBluetoothStatus();
+// checkStatus();
 // turnOff();
 
 module.exports = {
@@ -152,6 +152,6 @@ module.exports = {
   pairDevice,
   unpairDevice,
   listPairedDevices,
-  checkBluetoothStatus
+  checkStatus
 }
 

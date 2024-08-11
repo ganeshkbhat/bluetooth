@@ -114,7 +114,7 @@ function listPairedDevices(callback) {
 }
 
 // Function to check Bluetooth status
-function checkBluetoothStatus(callback) {
+function checkStatus(callback) {
   executeCommand('systemctl is-active bluetooth', (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -125,7 +125,7 @@ function checkBluetoothStatus(callback) {
 // unpairDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Unpairing result:', result); });
 // turnOn(result => { console.log('Bluetooth enabled:', result); });
 // turnOff(result => { console.log('Bluetooth disabled:', result); });
-
+// checkStatus
 
 module.exports = {
   listDevices,
@@ -134,6 +134,6 @@ module.exports = {
   turnOn,
   turnOff,
   listPairedDevices,
-  checkBluetoothStatus
+  checkStatus
 }
 

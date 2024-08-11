@@ -41,7 +41,7 @@ function executeCommand(command) {
  *
  * @param {*} callback
  */
-function checkBluetoothStatus(callback) {
+function checkStatus(callback) {
   const command = 'system_profiler SPBluetoothDataType | grep "Bluetooth Power"';
   const result = executeCommand(command);
   console.log(`Bluetooth Status: ${result}`);
@@ -148,7 +148,7 @@ function listDevices(callback) {
 }
 
 // // Example usage
-// checkBluetoothStatus();
+// checkStatus();
 // turnOn();
 // listPairedDevices();
 // listDevices();
@@ -157,7 +157,7 @@ function listDevices(callback) {
 // turnOff();
 
 module.exports = {
-  checkBluetoothStatus,
+  checkStatus,
   turnOn,
   turnOff,
   listPairedDevices,
