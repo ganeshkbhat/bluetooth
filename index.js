@@ -16,10 +16,18 @@
 
 'use strict';
 
+const os = require("os");
+const ost = os.type().toLowerCase();
+var bluetooth;
 
+if (ost === "linux") {
+    bluetooth = require("./index.linux");
+} else if (ost === "darwin") {
+    bluetooth = require("./index.mac");
+} else if (ost === "windows_nt") {
+    bluetooth = require("./index.win");
+} else {
+    bluetooth = require("./index.linux");
+}
 
-
-
-
-
-
+module.exports = bluetooth;
