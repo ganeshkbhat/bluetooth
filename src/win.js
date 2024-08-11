@@ -108,7 +108,7 @@ function unpairDevice(deviceAddress, callback) {
 }
 
 // List All Paired Bluetooth Devices
-function listPairedDevices(callback) {
+function listPaired(callback) {
   const command = `
     $devices = Get-PnpDevice -Class Bluetooth | Where-Object { $_.Status -eq 'OK' }
     $devices | ForEach-Object { $_.FriendlyName }
@@ -141,7 +141,7 @@ function checkStatus(callback) {
 // // Replace 'DEVICE_ID' with the actual Bluetooth device ID
 // pairDevice('DEVICE_ID');
 // unpairDevice('DEVICE_ID');
-// listPairedDevices();
+// listPaired();
 // checkStatus();
 // turnOff();
 
@@ -151,7 +151,7 @@ module.exports = {
   turnOff,
   pairDevice,
   unpairDevice,
-  listPairedDevices,
+  listPaired,
   checkStatus
 }
 

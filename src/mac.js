@@ -80,7 +80,7 @@ function turnOff(callback) {
  *
  * @param {*} callback
  */
-function listPairedDevices(callback) {
+function listPaired(callback) {
   const command = 'blueutil --paired';
   const result = executeCommand(command);
   console.log(`Paired Devices:\n${result}`);
@@ -150,7 +150,7 @@ function listDevices(callback) {
 // // Example usage
 // checkStatus();
 // turnOn();
-// listPairedDevices();
+// listPaired();
 // listDevices();
 // // pairDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
 // // unpairDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
@@ -160,7 +160,7 @@ module.exports = {
   checkStatus,
   turnOn,
   turnOff,
-  listPairedDevices,
+  listPaired,
   pairDevice,
   unpairDevice,
   listDevices
