@@ -401,7 +401,6 @@ function defaultDevice(callback) {
 // turnOff();
 
 module.exports = {
-
   listDevices,
   pairDevice,
   unpairDevice,
