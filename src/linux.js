@@ -127,10 +127,9 @@ function disconnectDevice(deviceAddress, callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function powerOn(deviceAddress, callback) {
+function powerOn(callback) {
   executeCommand(`bluetoothctl power on`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -139,10 +138,9 @@ function powerOn(deviceAddress, callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function powerOff(deviceAddress, callback) {
+function powerOff(callback) {
   executeCommand(`bluetoothctl power off`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -174,10 +172,9 @@ function turnOff(callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function agentOn(deviceAddress, callback) {
+function agentOn(callback) {
   executeCommand(`bluetoothctl agent on`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -186,10 +183,9 @@ function agentOn(deviceAddress, callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function agentOff(deviceAddress, callback) {
+function agentOff(callback) {
   executeCommand(`bluetoothctl agent off`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -198,10 +194,9 @@ function agentOff(deviceAddress, callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function scanOn(deviceAddress, callback) {
+function scanOn(callback) {
   executeCommand(`bluetoothctl scan on`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -210,10 +205,9 @@ function scanOn(deviceAddress, callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function scanOff(deviceAddress, callback) {
+function scanOff(callback) {
   executeCommand(`bluetoothctl scan off`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -222,10 +216,9 @@ function scanOff(deviceAddress, callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function pairableOn(deviceAddress, callback) {
+function pairableOn(callback) {
   executeCommand(`bluetoothctl pairable on`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -234,10 +227,9 @@ function pairableOn(deviceAddress, callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function pairableOff(deviceAddress, callback) {
+function pairableOff(callback) {
   executeCommand(`bluetoothctl pairable off`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -246,10 +238,9 @@ function pairableOff(deviceAddress, callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function discoverableOn(deviceAddress, callback) {
+function discoverableOn(callback) {
   executeCommand(`bluetoothctl discoverable on`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -258,11 +249,21 @@ function discoverableOn(deviceAddress, callback) {
 /**
  *
  *
- * @param {*} deviceAddress
  * @param {*} callback
  */
-function discoverableOff(deviceAddress, callback) {
+function discoverableOff(callback) {
   executeCommand(`bluetoothctl discoverable off`, (error, stdout, stderr) => {
+    callback(stdout.trim());
+  });
+}
+
+/**
+ *
+ *
+ * @param {*} callback
+ */
+function defaultDevice(callback) {
+  executeCommand(`bluetoothctl default-agent`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
 }
@@ -323,6 +324,7 @@ module.exports = {
   pairableOff,
   discoverableOn,
   discoverableOff,
+  defaultDevice,
   listPaired,
   listConnected,
   checkStatus
