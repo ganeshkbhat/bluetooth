@@ -236,20 +236,23 @@ function disconnectDevice(deviceAddress, callback) {
 
 // List visible Bluetooth devices during scan
 function listDevices(callback) {
-  const devices = execCommand('blueutil --paired --inquiry', callback);
+  const devices = execCommand('blueutil --paired --inquiry');
   console.log('Visible Bluetooth devices:\n', devices);
+  callback(devices);
 }
 
 // List connected Bluetooth devices
 function listConnected(callback) {
-  const devices = execCommand('system_profiler SPBluetoothDataType | grep "Connected: Yes" -B 7', callback);
+  const devices = execCommand('system_profiler SPBluetoothDataType | grep "Connected: Yes" -B 7');
   console.log('Connected Bluetooth devices:\n', devices);
+  callback(devices);
 }
 
 // List paired Bluetooth devices
 function listPaired(callback) {
-  const devices = execCommand('blueutil --paired', callback);
+  const devices = execCommand('blueutil --paired');
   console.log('Paired Bluetooth devices:\n', devices);
+  callback(devices);
 }
 
 // // Example usage
