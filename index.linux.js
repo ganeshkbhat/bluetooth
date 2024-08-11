@@ -57,11 +57,11 @@ function listDevices(callback) {
 /**
  *
  *
- * @param {*} macAddress
+ * @param {*} deviceAddress
  * @param {*} callback
  */
-function pairDevice(macAddress, callback) {
-  executeCommand(`bluetoothctl pair ${macAddress}`, (error, stdout, stderr) => {
+function pairDevice(deviceAddress, callback) {
+  executeCommand(`bluetoothctl pair ${deviceAddress}`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
 }
@@ -69,11 +69,11 @@ function pairDevice(macAddress, callback) {
 /**
  *
  *
- * @param {*} macAddress
+ * @param {*} deviceAddress
  * @param {*} callback
  */
-function unpairDevice(macAddress, callback) {
-  executeCommand(`bluetoothctl remove ${macAddress}`, (error, stdout, stderr) => {
+function unpairDevice(deviceAddress, callback) {
+  executeCommand(`bluetoothctl remove ${deviceAddress}`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
 }

@@ -83,12 +83,12 @@ function turnOff(callback) {
 /**
  * Pair with a Bluetooth Device
  *
- * @param {*} deviceId
+ * @param {*} deviceAddress
  */
-function pairDevice(deviceId, callback) {
-  const command = `powershell "Add-BluetoothDevice -DeviceAddress ${deviceId}"`;
+function pairDevice(deviceAddress, callback) {
+  const command = `powershell "Add-BluetoothDevice -DeviceAddress ${deviceAddress}"`;
   executeCommand(command, (error, stdout, stderr) => {
-    console.log(`Paired with device: ${deviceId}`);
+    console.log(`Paired with device: ${deviceAddress}`);
     callback(stdout);
   });
 }
@@ -97,12 +97,12 @@ function pairDevice(deviceId, callback) {
 /**
  * Unpair with a Bluetooth Device
  *
- * @param {*} deviceId
+ * @param {*} deviceAddress
  */
-function unpairDevice(deviceId, callback) {
-  const command = `powershell "Remove-BluetoothDevice -DeviceAddress ${deviceId}"`;
+function unpairDevice(deviceAddress, callback) {
+  const command = `powershell "Remove-BluetoothDevice -DeviceAddress ${deviceAddress}"`;
   executeCommand(command, (error, stdout, stderr) => {
-    console.log(`Unpaired with device: ${deviceId}`);
+    console.log(`Unpaired with device: ${deviceAddress}`);
     callback(stdout);
   });
 }
