@@ -37,7 +37,7 @@ jobs:
 
   # Add separate jobs for specific OS versions if needed
 
-  linux-ubuntu-20.04:
+  linux-ubuntu-20-04:
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
     - name: Run tests
       run: npm test
 
-  linux-ubuntu-22.04:
+  linux-ubuntu-22-04:
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout code
@@ -71,7 +71,7 @@ jobs:
     - name: Run tests
       run: npm test
 
-  linux-ubuntu-24.04:
+  linux-ubuntu-24-04:
     runs-on: ubuntu-24.04
     steps:
     - name: Checkout code
