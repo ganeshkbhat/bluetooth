@@ -42,20 +42,6 @@ function executeCommand(command, callback) {
 
 
 /**
- * Identify Bluetooth Devices
- *
- */
-function listDevices(callback) {
-  const command = `Get-PnpDevice -Class Bluetooth`;
-  executeCommand(command, (error, stdout, stderr) => {
-    console.log('Bluetooth Devices:');
-    console.log(stdout);
-    callback(stdout);
-  });
-}
-
-
-/**
  * Enable Bluetooth
  *
  */
@@ -248,6 +234,20 @@ function disconnectDevice(deviceAddress, callback) {
   const command = `Disconnect-BluetoothDevice -Address ${deviceAddress}`;
   executeCommand(command, callback);
 }
+
+
+// /**
+//  * Identify Bluetooth Devices
+//  *
+//  */
+// function listDevices(callback) {
+//   const command = `Get-PnpDevice -Class Bluetooth`;
+//   executeCommand(command, (error, stdout, stderr) => {
+//     console.log('Bluetooth Devices:');
+//     console.log(stdout);
+//     callback(stdout);
+//   });
+// }
 
 
 /**

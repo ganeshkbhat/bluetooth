@@ -147,6 +147,134 @@ function listDevices(callback) {
   callback(devices);
 }
 
+// Power on Bluetooth
+function powerOn(callback) {
+  let result = execCommand('blueutil --power 1');
+  console.log('Bluetooth powered on');
+  callback(result);
+}
+
+// Power off Bluetooth
+function powerOff(callback) {
+  let result = execCommand('blueutil --power 0');
+  console.log('Bluetooth powered off');
+  callback(result);
+}
+
+// Set agent on (enable Bluetooth)
+function agentOn(callback) {
+  let result = execCommand('blueutil --discoverable 1');
+  console.log('Bluetooth agent on');
+  callback(result);
+}
+
+// Set agent off (disable Bluetooth)
+function agentOff(callback) {
+  let result = execCommand('blueutil --discoverable 0');
+  console.log('Bluetooth agent off');
+  callback(result);
+}
+
+// Make Bluetooth discoverable
+function discoverableOn(callback) {
+  let result = execCommand('blueutil --discoverable 1');
+  console.log('Bluetooth discoverable on');
+  callback(result);
+}
+
+// Make Bluetooth non-discoverable
+function discoverableOff(callback) {
+  let result = execCommand('blueutil --discoverable 0');
+  console.log('Bluetooth discoverable off');
+  callback(result);
+}
+
+// Start scanning for Bluetooth devices
+function scanOn(callback) {
+  let result = execCommand('blueutil --inquiry 1');
+  console.log('Bluetooth scanning on');
+  callback(result);
+}
+
+// Stop scanning for Bluetooth devices
+function scanOff(callback) {
+  let result = execCommand('blueutil --inquiry 0');
+  console.log('Bluetooth scanning off');
+  callback(result);
+}
+
+// Set device as pairable (enabled by default on macOS)
+function pairableOn(callback) {
+  console.log('Bluetooth pairable on (default state)');
+}
+
+// Set device as non-pairable
+function pairableOff(callback) {
+  console.log('Bluetooth pairable off (no direct command to disable on macOS)');
+}
+
+// Trust a Bluetooth device by its address
+function trustDevice(deviceAddress, callback) {
+  let result = execCommand(`blueutil --trust ${deviceAddress}`);
+  console.log(`Trusted device: ${deviceAddress}`);
+  callback(result);
+}
+
+// Connect to a Bluetooth device by its address
+function connectDevice(deviceAddress, callback) {
+  let result = execCommand(`blueutil --connect ${deviceAddress}`);
+  console.log(`Connected to device: ${deviceAddress}`);
+  callback(result);
+}
+
+// Disconnect a Bluetooth device by its address
+function disconnectDevice(deviceAddress, callback) {
+  let result = execCommand(`blueutil --disconnect ${deviceAddress}`);
+  console.log(`Disconnected from device: ${deviceAddress}`);
+  callback(result);
+}
+
+// List visible Bluetooth devices during scan
+function listDevices(callback) {
+  const devices = execCommand('blueutil --paired --inquiry', callback);
+  console.log('Visible Bluetooth devices:\n', devices);
+}
+
+// List connected Bluetooth devices
+function listConnected(callback) {
+  const devices = execCommand('system_profiler SPBluetoothDataType | grep "Connected: Yes" -B 7', callback);
+  console.log('Connected Bluetooth devices:\n', devices);
+}
+
+// List paired Bluetooth devices
+function listPaired(callback) {
+  const devices = execCommand('blueutil --paired', callback);
+  console.log('Paired Bluetooth devices:\n', devices);
+}
+
+// // Example usage
+// (async () => {
+//   try {
+//     await powerOn();
+//     await powerOff();
+//     await agentOn();
+//     await agentOff();
+//     await discoverableOn();
+//     await discoverableOff();
+//     await scanOn();
+//     await scanOff();
+//     await trustDevice('XX:XX:XX:XX:XX:XX');  // Replace with the actual device address
+//     await connectDevice('XX:XX:XX:XX:XX:XX'); // Replace with the actual device address
+//     await disconnectDevice('XX:XX:XX:XX:XX:XX'); // Replace with the actual device address
+//     await listDevices();
+//     await listConnected();
+//     await listPaired();
+    
+//   } catch (error) {
+//     console.error(error);
+//   }
+// })();
+
 // // Example usage
 // checkStatus();
 // turnOn();
@@ -157,12 +285,28 @@ function listDevices(callback) {
 // turnOff();
 
 module.exports = {
-  checkStatus,
-  turnOn,
-  turnOff,
-  listPaired,
+  listDevices,
   pairDevice,
   unpairDevice,
-  listDevices
+  turnOn,
+  turnOff,
+  powerOn,
+  powerOff,
+  // removeDevice,
+  trustDevice,
+  connectDevice,
+  disconnectDevice,
+  agentOn,
+  agentOff,
+  scanOn,
+  scanOff,
+  pairableOn,
+  pairableOff,
+  discoverableOn,
+  discoverableOff,
+  // defaultDevice,
+  listPaired,
+  listConnected,
+  checkStatus
 }
 
