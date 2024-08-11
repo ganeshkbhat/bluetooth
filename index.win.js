@@ -35,7 +35,7 @@ function executeCommand(command, callback) {
       console.error(`Stderr: ${stderr}`);
       return;
     }
-    callback(stdout);
+    callback(error, stdout, stderr);
   });
 }
 
@@ -46,9 +46,10 @@ function executeCommand(command, callback) {
  */
 function listDevices(callback) {
   const command = `powershell "Get-PnpDevice -Class Bluetooth"`;
-  executeCommand(command, callback || function (output) {
+  executeCommand(command, (error, stdout, stderr) => {
     console.log('Bluetooth Devices:');
-    console.log(output);
+    console.log(stdout);
+    callback(stdout);
   });
 }
 
@@ -57,10 +58,11 @@ function listDevices(callback) {
  * Enable Bluetooth
  *
  */
-function enableBluetooth() {
+function enableBluetooth(callback) {
   const command = `powershell "Start-Service bthserv"`;
-  executeCommand(command, callback || function (output) {
+  executeCommand(command, (error, stdout, stderr) => {
     console.log('Bluetooth enabled');
+    callback(stdout);
   });
 }
 
@@ -69,10 +71,11 @@ function enableBluetooth() {
  * Disable Bluetooth
  *
  */
-function disableBluetooth() {
+function disableBluetooth(callback) {
   const command = `powershell "Stop-Service bthserv"`;
-  executeCommand(command, callback || function (output) {
+  executeCommand(command, (error, stdout, stderr) => {
     console.log('Bluetooth disabled');
+    callback(stdout);
   });
 }
 
@@ -82,10 +85,11 @@ function disableBluetooth() {
  *
  * @param {*} deviceId
  */
-function pairWithDevice(deviceId) {
+function pairDevice(deviceId, callback) {
   const command = `powershell "Add-BluetoothDevice -DeviceAddress ${deviceId}"`;
-  executeCommand(command, callback || function (output) {
+  executeCommand(command, (error, stdout, stderr) => {
     console.log(`Paired with device: ${deviceId}`);
+    callback(stdout);
   });
 }
 
@@ -95,34 +99,38 @@ function pairWithDevice(deviceId) {
  *
  * @param {*} deviceId
  */
-function unpairDevice(deviceId) {
+function unpairDevice(deviceId, callback) {
   const command = `powershell "Remove-BluetoothDevice -DeviceAddress ${deviceId}"`;
-  executeCommand(command, callback || function (output) {
+  executeCommand(command, (error, stdout, stderr) => {
     console.log(`Unpaired with device: ${deviceId}`);
+    callback(stdout);
   });
 }
 
 // List All Paired Bluetooth Devices
-function listPairedDevices() {
+function listPairedDevices(callback) {
   const command = `
     $devices = Get-PnpDevice -Class Bluetooth | Where-Object { $_.Status -eq 'OK' }
     $devices | ForEach-Object { $_.FriendlyName }
   `;
-  executeCommand(command, (output) => {
+  executeCommand(command, (error, stdout, stderr) => {
     console.log('Paired Bluetooth Devices:');
-    console.log(output.trim() ? output : 'No paired devices found.');
+    console.log(stdout.trim() ? stdout : 'No paired devices found.');
+    callback(stdout);
   });
 }
 
 
 // Check Bluetooth Status
-function checkBluetoothStatus() {
+function checkBluetoothStatus(callback) {
   const command = `Get-Service -Name bthserv | Select-Object -ExpandProperty Status`;
-  executeCommand(command, (output) => {
-    if (output.trim() === 'Running') {
+  executeCommand(command, (error, stdout, stderr) => {
+    if (stdout.trim() === 'Running') {
       console.log('Bluetooth is enabled and running');
+      callback(stdout);
     } else {
       console.log('Bluetooth is disabled or not running');
+      callback(stdout);
     }
   });
 }
@@ -131,7 +139,7 @@ function checkBluetoothStatus() {
 // listDevices();
 // enableBluetooth();
 // // Replace 'DEVICE_ID' with the actual Bluetooth device ID
-// pairWithDevice('DEVICE_ID');
+// pairDevice('DEVICE_ID');
 // unpairDevice('DEVICE_ID');
 // listPairedDevices();
 // checkBluetoothStatus();
@@ -141,7 +149,7 @@ module.exports = {
   listDevices,
   enableBluetooth,
   disableBluetooth,
-  pairWithDevice,
+  pairDevice,
   unpairDevice,
   listPairedDevices,
   checkBluetoothStatus

@@ -18,7 +18,14 @@
 
 const { execSync } = require('child_process');
 
-// Function to execute system commands
+
+
+/**
+ * Function to execute system commands
+ *
+ * @param {*} command
+ * @return {*} 
+ */
 function executeCommand(command) {
   try {
     return execSync(command, { stdio: 'pipe' }).toString();
@@ -28,28 +35,51 @@ function executeCommand(command) {
   }
 }
 
-// Identify Bluetooth status
-function checkBluetoothStatus() {
+
+/**
+ * Identify Bluetooth status
+ *
+ * @param {*} callback
+ */
+function checkBluetoothStatus(callback) {
   const command = 'system_profiler SPBluetoothDataType | grep "Bluetooth Power"';
   const result = executeCommand(command);
   console.log(`Bluetooth Status: ${result}`);
+  callback(result);
 }
 
-// Turn Bluetooth on
-function turnBluetoothOn() {
+
+/**
+ * Turn Bluetooth on
+ *
+ * @param {*} callback
+ */
+function turnBluetoothOn(callback) {
   const command = 'blueutil --power 1';
   executeCommand(command);
   console.log('Bluetooth turned on.');
+  callback(result);
 }
 
-// Turn Bluetooth off
-function turnBluetoothOff() {
+
+/**
+ * Turn Bluetooth off
+ *
+ * @param {*} callback
+ */
+function turnBluetoothOff(callback) {
   const command = 'blueutil --power 0';
   executeCommand(command);
   console.log('Bluetooth turned off.');
+  callback(result);
 }
 
-// List paired devices
+
+/**
+ * List paired devices
+ *
+ * @param {*} callback
+ */
 function listPairedDevices(callback) {
   const command = 'blueutil --paired';
   const result = executeCommand(command);
@@ -57,22 +87,39 @@ function listPairedDevices(callback) {
   callback(result);
 }
 
-// Pair with a device (replace XX-XX-XX-XX-XX-XX with the device address)
-function pairWithDevice(deviceAddress) {
+
+/**
+ * Pair with a device (replace XX-XX-XX-XX-XX-XX with the device address)
+ *
+ * @param {*} deviceAddress
+ * @param {*} callback
+ */
+function pairDevice(deviceAddress, callback) {
   const command = `blueutil --pair ${deviceAddress}`;
-  executeCommand(command);
+  const result = executeCommand(command);
   console.log(`Paired with device: ${deviceAddress}`);
+  callback(result);
 }
 
-// Unpair a device (replace XX-XX-XX-XX-XX-XX with the device address)
-function unpairDevice(deviceAddress) {
+/**
+ * Unpair a device (replace XX-XX-XX-XX-XX-XX with the device address)
+ *
+ * @param {*} deviceAddress
+ * @param {*} callback
+ */
+function unpairDevice(deviceAddress, callback) {
   const command = `blueutil --unpair ${deviceAddress}`;
-  executeCommand(command);
+  const result = executeCommand(command);
   console.log(`Unpaired device: ${deviceAddress}`);
+  callback(result);
 }
 
-// List all Bluetooth devices
-function listDevices() {
+
+/**
+ * List all Bluetooth devices
+ *
+ */
+function listDevices(callback) {
   const command = 'system_profiler SPBluetoothDataType';
   const result = executeCommand(command);
 
@@ -97,6 +144,7 @@ function listDevices() {
   devices.forEach((device, index) => {
     console.log(`${index + 1}. Name: ${device.name}, Address: ${device.address}, Connected: ${device.connected}`);
   });
+  callback(devices);
 }
 
 // // Example usage
@@ -104,7 +152,7 @@ function listDevices() {
 // turnBluetoothOn();
 // listPairedDevices();
 // listDevices();
-// // pairWithDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
+// // pairDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
 // // unpairDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
 // turnBluetoothOff();
 
@@ -113,7 +161,7 @@ module.exports = {
   turnBluetoothOn,
   turnBluetoothOff,
   listPairedDevices,
-  pairWithDevice,
+  pairDevice,
   unpairDevice,
   listDevices
 }

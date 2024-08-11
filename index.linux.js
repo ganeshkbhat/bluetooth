@@ -60,11 +60,10 @@ function listDevices(callback) {
  * @param {*} macAddress
  * @param {*} callback
  */
-function pairWithDevice(macAddress, callback) {
+function pairDevice(macAddress, callback) {
   executeCommand(`bluetoothctl pair ${macAddress}`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
-
 }
 
 /**
@@ -77,7 +76,6 @@ function unpairDevice(macAddress, callback) {
   executeCommand(`bluetoothctl remove ${macAddress}`, (error, stdout, stderr) => {
     callback(stdout.trim());
   });
-
 }
 
 /**
@@ -106,15 +104,7 @@ function closeBluetooth(callback) {
 
 // Function to list paired Bluetooth devices
 function listPairedDevices(callback) {
-  exec(`bluetoothctl paired-devices`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error listing paired Bluetooth devices: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      return;
-    }
+  executeCommand(`bluetoothctl paired-devices`, (error, stdout, stderr) => {
     const devices = stdout.trim().split('\n').map(line => {
       const [_, mac, ...nameParts] = line.split(' ');
       return { mac, name: nameParts.join(' ') };
@@ -125,21 +115,13 @@ function listPairedDevices(callback) {
 
 // Function to check Bluetooth status
 function checkBluetoothStatus(callback) {
-  exec('systemctl is-active bluetooth', (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error checking Bluetooth status: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      return;
-    }
+  executeCommand('systemctl is-active bluetooth', (error, stdout, stderr) => {
     callback(stdout.trim());
   });
 }
 
 // listDevices(devices => { console.log('Available devices:', devices); });
-// pairWithDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Pairing result:', result); });
+// pairDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Pairing result:', result); });
 // unpairDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Unpairing result:', result); });
 // openBluetooth(result => { console.log('Bluetooth enabled:', result); });
 // closeBluetooth(result => { console.log('Bluetooth disabled:', result); });
@@ -147,7 +129,7 @@ function checkBluetoothStatus(callback) {
 
 module.exports = {
   listDevices,
-  pairWithDevice,
+  pairDevice,
   unpairDevice,
   openBluetooth,
   closeBluetooth,
