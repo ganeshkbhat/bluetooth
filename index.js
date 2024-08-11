@@ -21,13 +21,13 @@ const ost = os.type().toLowerCase();
 var bluetooth;
 
 if (ost === "linux") {
-    bluetooth = require("./index.linux");
+    bluetooth = { ...require("./index.linux") };
 } else if (ost === "darwin") {
-    bluetooth = require("./index.mac");
+    bluetooth = { ...require("./index.mac") };
 } else if (ost === "windows_nt") {
-    bluetooth = require("./index.win");
+    bluetooth = { ...require("./index.win") };
 } else {
-    bluetooth = require("./index.linux");
+    bluetooth = { ...require("./index.linux") };
 }
 
 module.exports = bluetooth;
