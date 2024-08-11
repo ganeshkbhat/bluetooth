@@ -58,7 +58,7 @@ function listDevices(callback) {
  * Enable Bluetooth
  *
  */
-function enableBluetooth(callback) {
+function turnOn(callback) {
   const command = `powershell "Start-Service bthserv"`;
   executeCommand(command, (error, stdout, stderr) => {
     console.log('Bluetooth enabled');
@@ -71,7 +71,7 @@ function enableBluetooth(callback) {
  * Disable Bluetooth
  *
  */
-function disableBluetooth(callback) {
+function turnOff(callback) {
   const command = `powershell "Stop-Service bthserv"`;
   executeCommand(command, (error, stdout, stderr) => {
     console.log('Bluetooth disabled');
@@ -137,18 +137,18 @@ function checkBluetoothStatus(callback) {
 
 // // Example usage
 // listDevices();
-// enableBluetooth();
+// turnOn();
 // // Replace 'DEVICE_ID' with the actual Bluetooth device ID
 // pairDevice('DEVICE_ID');
 // unpairDevice('DEVICE_ID');
 // listPairedDevices();
 // checkBluetoothStatus();
-// disableBluetooth();
+// turnOff();
 
 module.exports = {
   listDevices,
-  enableBluetooth,
-  disableBluetooth,
+  turnOn,
+  turnOff,
   pairDevice,
   unpairDevice,
   listPairedDevices,

@@ -54,7 +54,7 @@ function checkBluetoothStatus(callback) {
  *
  * @param {*} callback
  */
-function turnBluetoothOn(callback) {
+function turnOn(callback) {
   const command = 'blueutil --power 1';
   executeCommand(command);
   console.log('Bluetooth turned on.');
@@ -67,7 +67,7 @@ function turnBluetoothOn(callback) {
  *
  * @param {*} callback
  */
-function turnBluetoothOff(callback) {
+function turnOff(callback) {
   const command = 'blueutil --power 0';
   executeCommand(command);
   console.log('Bluetooth turned off.');
@@ -149,17 +149,17 @@ function listDevices(callback) {
 
 // // Example usage
 // checkBluetoothStatus();
-// turnBluetoothOn();
+// turnOn();
 // listPairedDevices();
 // listDevices();
 // // pairDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
 // // unpairDevice('XX-XX-XX-XX-XX-XX'); // Replace with actual device address
-// turnBluetoothOff();
+// turnOff();
 
 module.exports = {
   checkBluetoothStatus,
-  turnBluetoothOn,
-  turnBluetoothOff,
+  turnOn,
+  turnOff,
   listPairedDevices,
   pairDevice,
   unpairDevice,

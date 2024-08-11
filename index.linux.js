@@ -83,7 +83,7 @@ function unpairDevice(macAddress, callback) {
  *
  * @param {*} callback
  */
-function openBluetooth(callback) {
+function turnOn(callback) {
   executeCommand('rfkill unblock bluetooth', (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -95,7 +95,7 @@ function openBluetooth(callback) {
  *
  * @param {*} callback
  */
-function closeBluetooth(callback) {
+function turnOff(callback) {
   executeCommand('rfkill block bluetooth', (error, stdout, stderr) => {
     callback(stdout.trim());
   });
@@ -123,16 +123,16 @@ function checkBluetoothStatus(callback) {
 // listDevices(devices => { console.log('Available devices:', devices); });
 // pairDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Pairing result:', result); });
 // unpairDevice('XX:XX:XX:XX:XX:XX', result => { console.log('Unpairing result:', result); });
-// openBluetooth(result => { console.log('Bluetooth enabled:', result); });
-// closeBluetooth(result => { console.log('Bluetooth disabled:', result); });
+// turnOn(result => { console.log('Bluetooth enabled:', result); });
+// turnOff(result => { console.log('Bluetooth disabled:', result); });
 
 
 module.exports = {
   listDevices,
   pairDevice,
   unpairDevice,
-  openBluetooth,
-  closeBluetooth,
+  turnOn,
+  turnOff,
   listPairedDevices,
   checkBluetoothStatus
 }
